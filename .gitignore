@@ -1,0 +1,17 @@
+.venv/
+
+food.csv
+food_nutrient.csv
+foundation_food.csv
+sr_legacy_food.csv
+nutrient.csv
+food_nutrient_derivation.csv
+
+scratch/
+
+__pycache__/
+*.pyc
+
+.idea/
+
+.DS_Store
