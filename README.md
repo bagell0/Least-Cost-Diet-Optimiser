@@ -30,7 +30,7 @@ The `linprog` function only takes in $Ax \le U$ constraints, hence the $Ax \ge L
 
 ## Data
 
-**Nutrient data:** USDA FoodData Central (Foundation + SR Legacy). Download from [FoodData Central](https://fdc.nal.usda.gov/) and place the CSVs in the project root.
+**Nutrient data:** USDA FoodData Central (Foundation + SR Legacy). Download the **full dataset** ("all data types" CSV, not the individual packages) from [FoodData Central](https://fdc.nal.usda.gov/) and place `food_nutrient.csv` in the project root.
 
 **Prices:** hand-collected from Tesco.com. Date listed in `price.csv`.
 
@@ -52,7 +52,7 @@ Protein is the binding constraint with the highest shadow price (£0.0180 per g 
 
 The USDA CSVs are large (~1.5GB) so they haven't been committed. These must be downloaded first from FoodData Central (see **Data** section) before running.
 
-Files required (download into the project root): `food_nutrient.csv`
+Files required (project root): `food_nutrient.csv`
 
 Then run the following:
 ```bash
