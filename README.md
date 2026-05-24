@@ -1,4 +1,4 @@
-# Optimal Nutrition
+# Least-Cost Diet Optimiser
 
 A linear programming model that takes in supermarket prices, searches through the USDA nutritional database, and computes the cheapest possible diet that meets your nutritional goals.
 
