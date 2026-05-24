@@ -30,7 +30,7 @@ The `linprog` function only takes in $Ax \le U$ constraints, hence the $Ax \ge L
 
 ## Data
 
-**Nutrient data:** USDA FoodData Central (Foundation + SR Legacy). Download the **full dataset** ("all data types" CSV, not the individual packages) from [FoodData Central](https://fdc.nal.usda.gov/) and place `food_nutrient.csv` in the project root.
+**Nutrient data:** USDA FoodData Central (Foundation + SR Legacy). Download the **full dataset** ("all data types" CSV, not the individual packages) from [FoodData Central](https://fdc.nal.usda.gov/download-datasets) and place `food_nutrient.csv` in the project root.
 
 **Prices:** hand-collected from Tesco.com. Date listed in `price.csv`.
 
