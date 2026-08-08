@@ -1,10 +1,9 @@
 .venv/
 
-food.csv
-food_nutrient.csv
+# SR Legacy-only download is small enough to commit (food.csv/food_nutrient.csv/nutrient.csv).
+# Not the full-dataset files, if you ever switch back to those (~1.5GB) - keep those ignored.
 foundation_food.csv
 sr_legacy_food.csv
-nutrient.csv
 food_nutrient_derivation.csv
 
 scratch/

@@ -1,16 +1,32 @@
-fdc_id,description,pack_size_g,pack_price_gbp,store,last_verified,notes,max_serving_100g
-2346396,"Oats, whole grain, rolled, old fashioned",1000,0.85,Tesco,11/05/2026,,7
-2512381,"Rice, white, long grain, unenriched, raw",1000,0.52,Tesco,11/05/2026,,7
-169736,"Pasta, dry, enriched",500,0.28,Tesco,11/05/2026,,5
-170026,"Potatoes, flesh and skin, raw",2000,1.32,Tesco,11/05/2026,,30
-746782,"Milk, whole, 3.25% milkfat, with added vitamin D",2272,1.65,Tesco,11/05/2026,,20
-746778,"Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D",2272,1.65,Tesco,11/05/2026,,20
-2259793,"Yogurt, plain, whole milk",500,0.55,Tesco,11/05/2026,,10
-169640,Honey,340,0.74,Tesco,11/05/2026,,2
-2646170,"Chicken, breast, boneless, skinless, raw",1000,6.49,Tesco,11/05/2026,,15
-748967,"Eggs, Grade A, Large, egg whole",805,2.89,Tesco,11/05/2026,,15
-2646171,"Chicken, thigh, boneless, skinless, raw",1000,7.25,Tesco,17/05/2026,,15
-174265,"Peanut butter, chunk style, with salt",340,1,Tesco,17/05/2026,,2
-2514744,"Beef, ground, 80% lean meat / 20% fat, raw",500,3.25,Tesco,17/05/2026,,10
-171790,"Beef, ground, 95% lean meat / 5% fat, raw",500,5.19,Tesco,17/05/2026,,10
-174284,"Lentils, pink or red, raw",1000,2.6,Tesco,17/05/2026,,4
+fdc_id,usda_dscr,product_name,pack_size_g,pack_price_gbp,store,last_verified,notes,min_serving_100g,max_serving_100g
+169705,Oats,Porridge Oats,1000,0.85,Aldi,7/08/2026,,,
+169756,"Rice, white, long-grain, regular, raw, unenriched",Long Grain White Rice,1000,0.52,Aldi,7/08/2026,,,
+168927,"Pasta, dry, unenriched",Everyday Essentials Spaghetti Pasta,500,0.28,Aldi,7/08/2026,,,
+170026,"Potatoes, flesh and skin, raw",Scottish Wonky Potatoes,2500,1.49,Aldi,7/08/2026,,,
+172217,"Milk, whole, 3.25% milkfat, without added vitamin A and vitamin D",Whole Milk 3.6% Fat,2350,1.65,Aldi,7/08/2026,Converted 4 pints to g. Note the 3.25/3.6% discrepancy,,
+172205,"Milk, reduced fat, fluid, 2% milkfat, without added vitamin A and vitamin D",Semi Skimmed Milk 1.7% Fat,2340,1.65,Aldi,7/08/2026,Converted 4 pints to g. Note the 2/1.7% discrepancy,,
+170886,"Yogurt, plain, low fat",Fat Free Natural Yogurt,500,0.55,Aldi,7/08/2026,,,
+169640,Honey,Clear Honey,454,0.99,Aldi,7/08/2026,,,
+171077,"Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw",Chicken Breast Fillets,2000,12.29,Aldi,7/08/2026,,,
+171287,"Egg, whole, raw, fresh",Free Range Eggs 6 pack,285,0.99,Aldi,7/08/2026,Min net weight 278g,,
+173627,"Chicken, broilers or fryers, dark meat, thigh, meat only, raw",Chicken Thigh Fillets,900,5.39,Aldi,7/08/2026,,,
+174265,"Peanut butter, chunk style, with salt",Crunchy Peanut Butter,340,0.95,Aldi,7/08/2026,Discount was active,,
+174036,"Beef, ground, 80% lean meat / 20% fat, raw",British Beef Mince 20% Fat,500,3.25,Aldi,7/08/2026,,,
+174284,"Lentils, pink or red, raw",Red Lentils,500,0.99,Aldi,7/08/2026,,,
+175139,"Fish, sardine, Atlantic, canned in oil, drained solids with bone",Sardines in Sunflower Oil,120,0.49,Aldi,7/08/2026,,,
+170393,"Carrots, raw",British Wonky Carrots,1500,0.79,Aldi,7/08/2026,,,
+169287,"Spinach, frozen, chopped or leaf, unprepared (Includes foods for USDA's Food Distribution Program)",Leaf Spinach,900,1.60,Tesco,7/08/2026,,,
+169097,"Oranges, raw, all commercial varieties",Wonky Oranges,700,0.99,Aldi,7/08/2026,Estimated weight on the lower end,,
+172336,"Oil, canola",Crisp 'N Dry Rapeseed Oil,1830,5.45,Tesco,7/08/2026,Converted 2l to grams,,
+170457,"Tomatoes, red, ripe, raw, year round average",Vine Ripened Tomatoes,500,0.79,Aldi,7/08/2026,,,
+169968,"Broccoli, frozen, chopped, unprepared",Broccoli Florets,1000,1.29,Aldi,7/08/2026,,,
+170569,"Nuts, brazilnuts, dried, unblanched",Brazil Nuts,250,4.20,Tesco,7/08/2026,"VERY HIGH IN SELENIUM. Switched to SR Legacy record - only option is ""dried, unblanched"", not identical to raw",,
+171309,"Yogurt, Greek, whole, plain, CHOBANI",Full Fat Greek Style Yogurt,1000,1.49,Aldi,7/08/2026,,,
+171060,"Chicken, liver, all classes, raw",Fresh Chicken Livers,380,1.75,Tesco,7/08/2026,,,
+167862,"Pork, fresh, variety meats and by-products, liver, raw",British Sliced Pork Liver,300,1.02,Tesco,7/08/2026,,,
+172531,"Lamb, variety meats and by-products, liver, raw",Lamb Sliced Liver,400,2.46,Tesco,7/08/2026,,,
+173468,"Salt, table",British Table Salt,750,0.65,Aldi,7/08/2026,,,
+168482,"Sweet potato, raw, unprepared",Sweet Potatoes,1000,1.19,Aldi,7/08/2026,,,
+175188,"Beans, black turtle, mature seeds, canned",Tinned Black Beans,400,0.45,Aldi,7/08/2026,,,
+170556,"Seeds, pumpkin and squash seed kernels, dried",Pumpkin Seeds,250,1.69,Aldi,7/08/2026,,,
+170554,"Seeds, chia seeds, dried",Whole Chia Seeds,200,1.79,Aldi,7/08/2026,,,
