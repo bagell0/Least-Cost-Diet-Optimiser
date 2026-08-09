@@ -196,8 +196,8 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
     diet_h = max(150, 34 * len(used) + 90)
     nutrient_h = max(150, 34 * len(n_o) + 90)
     shadow_h = max(120, 34 * len(shadow_rows) + 90)
-    buttons_h = 44 * len(n_o) + 30  # always-visible button column above the pie, one per nutrient
-    pie_h = 600 + buttons_h
+    buttons_h = 44 * len(n_o) + 30  # always-visible button column beside the pie, one per nutrient
+    pie_h = max(600, buttons_h)  # row needs to fit whichever of the two is taller
     # make_subplots renormalizes row_heights by their own sum, then shrinks the result by
     # (rows-1) vertical_spacing gaps - so bar_h/total_h doesn't put bar_h pixels on screen, it puts
     # fewer. Solving total_h to exactly cancel that shrink keeps every row at its intended size.
@@ -211,7 +211,7 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
         row_heights=[bar_h / total_h, diet_h / total_h, nutrient_h / total_h, shadow_h / total_h, pie_h / total_h],
         specs=[[{"type": "bar"}], [{"type": "table"}], [{"type": "table"}], [{"type": "table"}], [{"type": "domain"}]],
         subplot_titles=("Grams per day (hover for full breakdown)", "Diet summary", "Nutrient totals",
-                         "Shadow prices", "Nutrient breakdown by food (buttons above switch nutrient)"),
+                         "Shadow prices", "Nutrient breakdown by food (buttons on the left switch nutrient)"),
         vertical_spacing=vertical_spacing,
     )
     fig.add_trace(go.Bar(
@@ -243,14 +243,14 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
     ), row=5, col=1)
 
     # Always-visible buttons, not a dropdown (scroll-hijacks once its open list overflows the
-    # viewport) or a slider (hides labels once there are too many ticks). Needs real vertical room,
-    # not an overlay, so the pie's domain is shrunk to make space - proportionally within the row's
-    # own actual span, since make_subplots' internal shrinking (see total_h above) makes a fraction
-    # carved against total_h unreliable once buttons_h grows large.
+    # viewport) or a slider (hides labels once there are too many ticks). Buttons sit in a left
+    # column, pie fills the rest - both spanning the row's full height. (An earlier version shrunk
+    # the pie's *vertical* span to make room above it, but the buttons are only as wide as their
+    # labels, so that just left a tall blank strip beside them instead of stacking cleanly.)
     pie_domain = fig.data[4].domain
-    row_span = pie_domain.y[1] - pie_domain.y[0]
-    buttons_share = buttons_h / pie_h
-    fig.data[4].update(domain=dict(x=list(pie_domain.x), y=[pie_domain.y[0], pie_domain.y[1] - buttons_share * row_span]))
+    buttons_frac = 0.22  # width reserved for the button column, wide enough for the longest labels
+    col_width = pie_domain.x[1] - pie_domain.x[0]
+    fig.data[4].update(domain=dict(x=[pie_domain.x[0] + buttons_frac * col_width, pie_domain.x[1]], y=list(pie_domain.y)))
 
     fig.update_layout(
         template="plotly_dark",
