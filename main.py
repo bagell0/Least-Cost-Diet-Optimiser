@@ -252,10 +252,14 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
     # button per nutrient was tried too, but that made the column as tall as the whole nutrient
     # list, forcing a giant pie to match and leaving the pie badly off-centre. A grid - a handful
     # of short, wide rows above the pie - stays compact regardless of nutrient count.
-    pie_domain = fig.data[4].domain
-    row_span = pie_domain.y[1] - pie_domain.y[0]
+    # fig.data[4].domain is a *live* view onto the trace - re-reading it after .update() below
+    # would see the already-shrunk values, not the originals, so the pixel values needed for
+    # button placement are pulled out as plain floats first.
+    pie_x0, pie_x1 = fig.data[4].domain.x
+    pie_y0, pie_y1 = fig.data[4].domain.y
+    row_span = pie_y1 - pie_y0
     buttons_share = buttons_h / pie_h
-    fig.data[4].update(domain=dict(x=list(pie_domain.x), y=[pie_domain.y[0], pie_domain.y[1] - buttons_share * row_span]))
+    fig.data[4].update(domain=dict(x=[pie_x0, pie_x1], y=[pie_y0, pie_y1 - buttons_share * row_span]))
 
     button_row_span = (buttons_share * row_span) / len(button_rows)
     updatemenus = [
@@ -267,8 +271,8 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
             active=0 if row_i == 0 else -1,  # only the first row starts with a highlighted button
             bgcolor="#E8E8E8", bordercolor="#888", font=dict(color="#111111", size=14),
             pad=dict(t=6, b=6, l=10, r=10),
-            x=pie_domain.x[0], xanchor="left",
-            y=pie_domain.y[1] - row_i * button_row_span, yanchor="top",
+            x=pie_x0, xanchor="left",
+            y=pie_y1 - row_i * button_row_span, yanchor="top",
         )
         for row_i, chunk in enumerate(button_rows)
     ]
