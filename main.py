@@ -178,16 +178,21 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
     if not shadow_rows:
         shadow_rows = [("(none binding)", "")]
 
-    # per-nutrient pie data, switched via the buttons below (see button block for why buttons).
+    # per-nutrient pie data, switched via the button grid below (see button block for why buttons).
     pie_values_by_nutrient = {n: [individual_totals[n][i] for i in used] for n in n_o}
     first_n = n_o[0]
-    pie_steps = [
-        dict(
+
+    def pie_step(i, n):
+        return dict(
             label=n, method="restyle",
             args=[{"values": [pie_values_by_nutrient[n]], "title.text": f"{n}<br>total: {totals[i]:.1f}"}, [4]],
         )
-        for i, n in enumerate(n_o)
-    ]
+
+    # Chunked into fixed-width rows (not one column) so the button block stays short and wide
+    # instead of tall and narrow - see button block below for why a grid beats a single column.
+    BUTTON_COLS = 6
+    indexed_n_o = list(enumerate(n_o))
+    button_rows = [indexed_n_o[i:i + BUTTON_COLS] for i in range(0, len(indexed_n_o), BUTTON_COLS)]
 
     # row heights are sized off actual row counts, not fixed fractions - the nutrient/shadow-price
     # tables grow as more nutrients are added to constraints.csv, and a fixed layout clips rows
@@ -196,8 +201,8 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
     diet_h = max(150, 34 * len(used) + 90)
     nutrient_h = max(150, 34 * len(n_o) + 90)
     shadow_h = max(120, 34 * len(shadow_rows) + 90)
-    buttons_h = 44 * len(n_o) + 30  # always-visible button column beside the pie, one per nutrient
-    pie_h = max(600, buttons_h)  # row needs to fit whichever of the two is taller
+    buttons_h = 44 * len(button_rows) + 30  # a strip above the pie, a few rows of buttons tall
+    pie_h = 600 + buttons_h
     # make_subplots renormalizes row_heights by their own sum, then shrinks the result by
     # (rows-1) vertical_spacing gaps - so bar_h/total_h doesn't put bar_h pixels on screen, it puts
     # fewer. Solving total_h to exactly cancel that shrink keeps every row at its intended size.
@@ -211,7 +216,7 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
         row_heights=[bar_h / total_h, diet_h / total_h, nutrient_h / total_h, shadow_h / total_h, pie_h / total_h],
         specs=[[{"type": "bar"}], [{"type": "table"}], [{"type": "table"}], [{"type": "table"}], [{"type": "domain"}]],
         subplot_titles=("Grams per day (hover for full breakdown)", "Diet summary", "Nutrient totals",
-                         "Shadow prices", "Nutrient breakdown by food (buttons on the left switch nutrient)"),
+                         "Shadow prices", "Nutrient breakdown by food (buttons above switch nutrient)"),
         vertical_spacing=vertical_spacing,
     )
     fig.add_trace(go.Bar(
@@ -243,14 +248,30 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
     ), row=5, col=1)
 
     # Always-visible buttons, not a dropdown (scroll-hijacks once its open list overflows the
-    # viewport) or a slider (hides labels once there are too many ticks). Buttons sit in a left
-    # column, pie fills the rest - both spanning the row's full height. (An earlier version shrunk
-    # the pie's *vertical* span to make room above it, but the buttons are only as wide as their
-    # labels, so that just left a tall blank strip beside them instead of stacking cleanly.)
+    # viewport) or a slider (hides labels once there are too many ticks). A single column of one
+    # button per nutrient was tried too, but that made the column as tall as the whole nutrient
+    # list, forcing a giant pie to match and leaving the pie badly off-centre. A grid - a handful
+    # of short, wide rows above the pie - stays compact regardless of nutrient count.
     pie_domain = fig.data[4].domain
-    buttons_frac = 0.22  # width reserved for the button column, wide enough for the longest labels
-    col_width = pie_domain.x[1] - pie_domain.x[0]
-    fig.data[4].update(domain=dict(x=[pie_domain.x[0] + buttons_frac * col_width, pie_domain.x[1]], y=list(pie_domain.y)))
+    row_span = pie_domain.y[1] - pie_domain.y[0]
+    buttons_share = buttons_h / pie_h
+    fig.data[4].update(domain=dict(x=list(pie_domain.x), y=[pie_domain.y[0], pie_domain.y[1] - buttons_share * row_span]))
+
+    button_row_span = (buttons_share * row_span) / len(button_rows)
+    updatemenus = [
+        dict(
+            # Plotly hardcodes the *active* button's fill to a near-white color no matter what
+            # bgcolor is set here - rather than fight that, every button is styled light with dark
+            # text, so the active one (forced light) and inactive ones (set light) both stay readable.
+            type="buttons", direction="right", buttons=[pie_step(i, n) for i, n in chunk],
+            active=0 if row_i == 0 else -1,  # only the first row starts with a highlighted button
+            bgcolor="#E8E8E8", bordercolor="#888", font=dict(color="#111111", size=14),
+            pad=dict(t=6, b=6, l=10, r=10),
+            x=pie_domain.x[0], xanchor="left",
+            y=pie_domain.y[1] - row_i * button_row_span, yanchor="top",
+        )
+        for row_i, chunk in enumerate(button_rows)
+    ]
 
     fig.update_layout(
         template="plotly_dark",
@@ -260,16 +281,7 @@ def display_results(r, p, n_matrix, l_v, u_v, n_o, f_o):
         showlegend=False,
         height=total_h,
         margin=dict(l=10, r=10, t=90, b=10),
-        updatemenus=[dict(
-            # Plotly hardcodes the *active* button's fill to a near-white color no matter what
-            # bgcolor is set here - rather than fight that, every button is styled light with dark
-            # text, so the active one (forced light) and inactive ones (set light) both stay readable.
-            type="buttons", direction="down", buttons=pie_steps, active=0,
-            bgcolor="#E8E8E8", bordercolor="#888", font=dict(color="#111111", size=14),
-            pad=dict(t=6, b=6, l=10, r=10),
-            x=pie_domain.x[0], xanchor="left",
-            y=pie_domain.y[1], yanchor="top",
-        )],
+        updatemenus=updatemenus,
     )
     fig.update_xaxes(title_text="grams/day", row=1, col=1)
     fig.show()
